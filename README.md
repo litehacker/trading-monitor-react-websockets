@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# WebSocket Test App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Purpose
 
-## Available Scripts
+The WebSocket Test App is a simple React-based application that allows users to connect to a WebSocket server and test various commands for managing trading data. This includes adding trading data providers, clearing data providers, and clearing the prices stored for connected consumers. The application also provides a log view that displays real-time interactions between the client and the WebSocket server.
 
-In the project directory, you can run:
+The primary purpose of the application is to act as a testing and debugging interface for interacting with a backend Trading Broadcaster (TB) that manages multiple data providers. The app facilitates the sending and receiving of WebSocket messages, including adding and managing symbol subscriptions.
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Connect to a WebSocket server (Trading Broadcaster running on port 9000 by default).
+- Select trading symbols to add from the available list provided by a Symbol API.
+- Issue commands like "add-provider", "clear-providers", and "clear-prices" via WebSocket.
+- View real-time logs of messages sent and received.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Working Requirements
 
-### `npm test`
+To properly use this application, you need to have a backend WebSocket server and a Symbol API server running locally.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js (v14 or higher recommended)
+- npm (Node Package Manager)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Services Consumed
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Trading Broadcaster WebSocket Server**: The WebSocket Test App connects to a backend WebSocket server, known as the Trading Broadcaster (TB). The TB must be running on `ws://localhost:9000`. This server accepts and processes messages to add providers, clear providers, and clear prices.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Symbol API Server**: The application retrieves available trading symbols from a Symbol API running at `http://localhost:3000/api/symbols`. The Symbol API must be running to fetch the list of symbols that the app users can subscribe to.
 
-### `npm run eject`
+### Installation & Setup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Follow these steps to install and run the WebSocket Test App locally:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **Clone the Repository**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   git clone <repository_url>
+   cd websocket-test-app
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Install Dependencies** Install the required dependencies for the application:
 
-## Learn More
+   ```bash
+   npm install
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Run the React App** Start the React development server on port 3001:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   PORT=3001 npm start
+   ```
 
-### Code Splitting
+   The application will be accessible at [http://localhost:3001](http://localhost:3001).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Usage Instructions
 
-### Analyzing the Bundle Size
+1. **Connect to WebSocket**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+   - Click the "Connect to WebSocket" button to establish a connection with the Trading Broadcaster server (`ws://localhost:9000`).
 
-### Making a Progressive Web App
+2. **Select Symbols to Add**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+   - The available symbols are fetched from the Symbol API and listed as checkboxes.
+   - Select the symbols you wish to add, and click the "Add Provider" button.
 
-### Advanced Configuration
+3. **Send Commands**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+   - Use the buttons to send commands like "Add Provider", "Clear Providers", or "Clear Prices".
 
-### Deployment
+4. **View Logs**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+   - Logs are displayed in the scrollable log box, showing all sent and received WebSocket messages.
 
-### `npm run build` fails to minify
+### Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **Network Error when Fetching Symbols**: Ensure that the Symbol API server is running at `http://localhost:3000`. Also, make sure CORS is enabled on the Symbol API.
+- **WebSocket Not Connected**: The WebSocket server (`ws://localhost:9000`) must be running before connecting. Make sure the Trading Broadcaster server is active.
+
+### Example Backend Setup
+
+- **Trading Broadcaster**: A WebSocket server should be running to accept commands and manage multiple data providers.
+- **Symbol API**: The Symbol API is expected to serve available symbols from `http://localhost:3000/api/symbols`.
+
+Ensure both backend services are running before interacting with the app to avoid errors.
+
+### Dependencies
+
+- React
+- Axios (for making HTTP requests to the Symbol API)
+
+### License
+
+This project is licensed under the MIT License.
