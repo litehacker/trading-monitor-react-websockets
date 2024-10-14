@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import "./App.css";
 
 function WebSocketTest() {
   const [logs, setLogs] = useState([]);
@@ -94,11 +95,11 @@ function WebSocketTest() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
       <h1>WebSocket Test App</h1>
 
-      <div>
-        <button onClick={connectWebSocket}>
+      <div style={{ marginBottom: "20px" }}>
+        <button className="primary-button" onClick={connectWebSocket}>
           {connected ? "Reconnect" : "Connect to WebSocket"}
         </button>
       </div>
@@ -106,18 +107,21 @@ function WebSocketTest() {
       <div style={{ margin: "20px 0" }}>
         <h3>Select Symbols to Add:</h3>
         {availableSymbols.length > 0 ? (
-          availableSymbols.map((symbol) => (
-            <div key={symbol.id}>
-              <label>
-                <input
-                  type="checkbox"
-                  value={symbol.id}
-                  onChange={handleSymbolChange}
-                />
-                {symbol.name} ({symbol.id})
-              </label>
-            </div>
-          ))
+          <div className="symbols-container">
+            {availableSymbols.map((symbol) => (
+              <div key={symbol.id} className="symbol-item">
+                <label className="symbol-label">
+                  <input
+                    type="checkbox"
+                    value={symbol.id}
+                    onChange={handleSymbolChange}
+                  />
+                  <span className="symbol-name">{symbol.name}</span> (
+                  {symbol.id})
+                </label>
+              </div>
+            ))}
+          </div>
         ) : (
           <p>Loading symbols...</p>
         )}
@@ -125,6 +129,7 @@ function WebSocketTest() {
 
       <div style={{ margin: "20px 0" }}>
         <button
+          className="primary-button"
           onClick={() =>
             sendMessage({
               action: "add-provider",
@@ -138,6 +143,7 @@ function WebSocketTest() {
         </button>
 
         <button
+          className="secondary-button"
           onClick={() => sendMessage({ action: "clear-providers" })}
           disabled={!connected}
         >
@@ -145,6 +151,7 @@ function WebSocketTest() {
         </button>
 
         <button
+          className="secondary-button"
           onClick={() => sendMessage({ action: "clear-prices" })}
           disabled={!connected}
         >
@@ -154,16 +161,7 @@ function WebSocketTest() {
 
       <div>
         <h3>Logs:</h3>
-        <div
-          ref={logContainerRef}
-          style={{
-            height: "300px",
-            overflowY: "scroll",
-            background: "#f1f1f1",
-            padding: "10px",
-            border: "1px solid #ccc",
-          }}
-        >
+        <div ref={logContainerRef} className="log-container">
           {logs.map((log, index) => (
             <div key={index}>{log}</div>
           ))}
